@@ -1,0 +1,674 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aitai Techvolution — Digital Creations</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=DM+Sans:wght@300;400;500&family=Space+Mono:wght@400;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.0/css/all.min.css">
+
+<style>
+  :root[data-theme="dark"] {
+    --bg: #07111F;
+    --bg2: #0D1F2D;
+    --accent: #1A6B8A;
+    --teal: #4ECDC4;
+    --gold: #F4B942;
+    --light: #E8F4F8;
+    --text: #E8F4F8;
+    --text-muted: rgba(232,244,248,0.55);
+    --card-bg: rgba(13,31,45,0.85);
+    --card-border: rgba(78,205,196,0.15);
+    --nav-bg: rgba(7,17,31,0.92);
+    --overlay: rgba(7,17,31,0.72);
+    --cta-bg: #0a1825;
+  }
+  :root[data-theme="light"] {
+    --bg: #E8F4F8;
+    --bg2: #d2eaf2;
+    --accent: #1A6B8A;
+    --teal: #1A6B8A;
+    --gold: #c9910a;
+    --light: #07111F;
+    --text: #07111F;
+    --text-muted: rgba(7,17,31,0.55);
+    --card-bg: rgba(255,255,255,0.85);
+    --card-border: rgba(26,107,138,0.2);
+    --nav-bg: rgba(232,244,248,0.96);
+    --overlay: rgba(7,17,31,0.55);
+    --cta-bg: #c0dce8;
+  }
+
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+  html { scroll-behavior: smooth; }
+
+  body {
+    font-family: 'DM Sans', sans-serif;
+    background: var(--bg);
+    color: var(--text);
+    min-height: 100vh;
+    transition: background 0.4s, color 0.4s;
+    overflow-x: hidden;
+  }
+  body::before {
+    content: '';
+    position: fixed; inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none; z-index: 0; opacity: 0.5;
+  }
+
+  /* ---- NAV ---- */
+  nav {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
+    display: flex; align-items: center; justify-content: space-between;
+    padding: 0 5vw; height: 64px;
+    background: var(--nav-bg);
+    backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--card-border);
+    transition: background 0.4s;
+  }
+  .nav-logo {
+    font-family: 'Space Mono', monospace; font-weight: 700;
+    font-size: 1.05rem; letter-spacing: 0.04em;
+    color: var(--teal); text-decoration: none; flex-shrink: 0;
+  }
+  .nav-logo span { color: var(--gold); }
+  .nav-center {
+    display: flex; align-items: center; gap: 2rem; list-style: none;
+    position: absolute; left: 50%; transform: translateX(-50%);
+  }
+  .nav-center a {
+    color: var(--text-muted); text-decoration: none;
+    font-size: 0.88rem; font-weight: 500; letter-spacing: 0.04em;
+    transition: color 0.2s; white-space: nowrap;
+  }
+  .nav-center a:hover { color: var(--teal); }
+  .nav-right { display: flex; align-items: center; gap: 0.8rem; flex-shrink: 0; }
+  .theme-toggle {
+    background: none; border: 1.5px solid var(--card-border);
+    border-radius: 50px; width: 52px; height: 28px;
+    cursor: pointer; position: relative;
+    display: flex; align-items: center; padding: 3px; flex-shrink: 0;
+    transition: border-color 0.3s;
+  }
+  .theme-toggle::after {
+    content: ''; width: 20px; height: 20px; border-radius: 50%;
+    background: var(--teal); transition: transform 0.3s, background 0.3s; display: block;
+  }
+  [data-theme="light"] .theme-toggle::after { transform: translateX(24px); background: var(--gold); }
+  .theme-icon { position: absolute; font-size: 10px; color: var(--text-muted); pointer-events: none; }
+  .theme-icon.sun { right: 6px; }
+  .theme-icon.moon { left: 6px; }
+  .hamburger { display: none; background: none; border: none; color: var(--text); font-size: 1.3rem; cursor: pointer; }
+  .mobile-nav {
+    display: none; position: fixed; top: 64px; left: 0; right: 0;
+    background: var(--nav-bg); backdrop-filter: blur(18px);
+    border-bottom: 1px solid var(--card-border);
+    padding: 1.5rem 5vw; z-index: 999;
+    flex-direction: column; gap: 1.2rem;
+  }
+  .mobile-nav.open { display: flex; }
+  .mobile-nav a { color: var(--text-muted); text-decoration: none; font-size: 1rem; font-weight: 500; padding: 0.4rem 0; transition: color 0.2s; }
+  .mobile-nav a:hover { color: var(--teal); }
+
+  /* ---- HERO ---- */
+  .hero {
+    min-height: 100vh; display: flex; flex-direction: column;
+    align-items: center; justify-content: center;
+    text-align: center; padding: 8rem 5vw 4rem;
+    position: relative; overflow: hidden;
+  }
+  .hero-bg-circle { position: absolute; border-radius: 50%; filter: blur(90px); opacity: 0.18; pointer-events: none; }
+  .hero-bg-circle.c1 { width: 600px; height: 600px; background: #1A6B8A; top: -150px; left: -150px; }
+  .hero-bg-circle.c2 { width: 400px; height: 400px; background: #4ECDC4; bottom: 50px; right: -100px; }
+  .hero-bg-circle.c3 { width: 300px; height: 300px; background: #F4B942; top: 40%; left: 55%; opacity: 0.1; }
+  .hero-tag {
+    display: inline-block; font-family: 'Space Mono', monospace;
+    font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+    color: var(--teal); border: 1px solid rgba(78,205,196,0.35);
+    padding: 0.35rem 1rem; border-radius: 50px; margin-bottom: 1.8rem;
+    animation: fadeUp 0.8s ease both;
+  }
+  .hero h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.8rem, 7vw, 6.5rem); font-weight: 900;
+    line-height: 1.05; color: var(--text); max-width: 820px;
+    animation: fadeUp 0.9s 0.1s ease both;
+  }
+  .hero h1 em { font-style: italic; color: var(--gold); }
+  .hero > p {
+    font-size: clamp(1rem, 1.8vw, 1.2rem); color: var(--text-muted);
+    max-width: 520px; line-height: 1.7; margin: 1.6rem auto 2.5rem;
+    animation: fadeUp 1s 0.2s ease both;
+  }
+  .hero-cta { display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap; animation: fadeUp 1s 0.3s ease both; }
+
+  /* ---- BUTTONS ---- */
+  .btn {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    padding: 0.85rem 2rem; border-radius: 6px;
+    font-weight: 600; font-size: 0.92rem; cursor: pointer;
+    text-decoration: none; transition: all 0.25s; letter-spacing: 0.02em;
+  }
+  .btn-primary { background: var(--teal); color: #07111F; border: none; }
+  .btn-primary:hover { background: var(--gold); transform: translateY(-2px); box-shadow: 0 8px 24px rgba(78,205,196,0.3); }
+  .btn-outline { background: transparent; color: var(--text); border: 1.5px solid var(--card-border); }
+  .btn-outline:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+  .btn-gold { background: var(--gold); color: #07111F; border: none; font-weight: 700; font-size: 1rem; padding: 1rem 2.4rem; }
+  .btn-gold:hover { filter: brightness(1.1); transform: translateY(-3px); box-shadow: 0 12px 36px rgba(244,185,66,0.45); }
+  .btn-ghost { background: rgba(255,255,255,0.07); color: var(--text); border: 1.5px solid rgba(255,255,255,0.15); }
+  .btn-ghost:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
+
+  /* ---- SHARED ---- */
+  section { position: relative; z-index: 1; }
+  .section-label { font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem; }
+  .section-title { font-family: 'Playfair Display', serif; font-size: clamp(2rem, 4vw, 3.2rem); font-weight: 700; line-height: 1.15; color: var(--text); }
+  .section-title em { font-style: italic; color: var(--gold); }
+
+  /* ---- PAIN / CTA SECTION ---- */
+  .cta-section {
+    background: var(--cta-bg);
+    border-top: 1px solid var(--card-border);
+    border-bottom: 1px solid var(--card-border);
+    padding: 6rem 5vw;
+    position: relative; overflow: hidden;
+  }
+  .cta-section::before {
+    content: '';
+    position: absolute; inset: 0;
+    background: radial-gradient(ellipse at 50% 0%, rgba(78,205,196,0.07) 0%, transparent 65%),
+                radial-gradient(ellipse at 80% 100%, rgba(244,185,66,0.06) 0%, transparent 60%);
+    pointer-events: none;
+  }
+  .cta-grid {
+    max-width: 1100px; margin: 0 auto;
+    display: grid; grid-template-columns: 1fr 1fr; gap: 5rem; align-items: center;
+    position: relative; z-index: 1;
+  }
+  .cta-left {}
+  .cta-alarm {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(244,185,66,0.1); border: 1px solid rgba(244,185,66,0.35);
+    color: var(--gold); font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.15em; text-transform: uppercase;
+    padding: 0.35rem 0.9rem; border-radius: 50px; margin-bottom: 1.4rem;
+    animation: pulse-gold 2.8s ease infinite;
+  }
+  @keyframes pulse-gold {
+    0%,100% { box-shadow: 0 0 0 0 rgba(244,185,66,0); }
+    50% { box-shadow: 0 0 0 8px rgba(244,185,66,0.1); }
+  }
+  .cta-left h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(1.9rem, 3.2vw, 2.9rem); font-weight: 900;
+    line-height: 1.15; color: var(--text); margin-bottom: 1.4rem;
+  }
+  .cta-left h2 em { font-style: italic; color: var(--gold); }
+  .cta-left p {
+    font-size: 1.02rem; color: var(--text-muted);
+    line-height: 1.85; margin-bottom: 1rem;
+  }
+  .cta-left p strong { color: var(--text); font-weight: 600; }
+  .cta-left p .hl { color: var(--teal); font-weight: 600; }
+
+  .future-box {
+    background: rgba(78,205,196,0.06);
+    border: 1px solid rgba(78,205,196,0.2);
+    border-radius: 10px;
+    padding: 1.3rem 1.5rem;
+    margin: 1.6rem 0;
+    font-style: italic;
+    color: var(--text-muted);
+    font-size: 0.97rem;
+    line-height: 1.75;
+    position: relative;
+  }
+  .future-box::before {
+    content: '"';
+    font-family: 'Playfair Display', serif;
+    font-size: 4rem; color: var(--teal); opacity: 0.2;
+    position: absolute; top: -10px; left: 12px; line-height: 1;
+  }
+
+  /* Pain list */
+  .pain-list { list-style: none; margin: 1.5rem 0; display: flex; flex-direction: column; gap: 0.75rem; }
+  .pain-list li {
+    display: flex; align-items: flex-start; gap: 0.75rem;
+    font-size: 0.95rem; color: var(--text-muted); line-height: 1.55;
+  }
+  .pain-list li i { color: #e05a5a; margin-top: 3px; flex-shrink: 0; }
+  .pain-list li.fix i { color: var(--teal); }
+  .pain-list li.fix { color: var(--text); }
+
+  /* CTA RIGHT CARD */
+  .cta-right-card {
+    background: var(--card-bg);
+    border: 1px solid var(--card-border);
+    border-radius: 16px;
+    padding: 2.5rem 2rem;
+    backdrop-filter: blur(12px);
+    box-shadow: 0 24px 60px rgba(0,0,0,0.25);
+  }
+  .cta-right-card h3 {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.6rem; font-weight: 800;
+    color: var(--text); margin-bottom: 0.5rem;
+    line-height: 1.25;
+  }
+  .cta-right-card h3 em { font-style: italic; color: var(--gold); }
+  .cta-right-card > p { font-size: 0.9rem; color: var(--text-muted); margin-bottom: 1.8rem; line-height: 1.6; }
+
+  .bonus-list { list-style: none; display: flex; flex-direction: column; gap: 0.8rem; margin-bottom: 2rem; }
+  .bonus-list li {
+    display: flex; align-items: flex-start; gap: 0.7rem;
+    font-size: 0.9rem; color: var(--text); line-height: 1.5;
+  }
+  .bonus-list li i { color: var(--gold); margin-top: 2px; flex-shrink: 0; }
+
+  .secret-box {
+    background: linear-gradient(135deg, rgba(244,185,66,0.08), rgba(78,205,196,0.06));
+    border: 1px dashed rgba(244,185,66,0.35);
+    border-radius: 8px;
+    padding: 1rem 1.2rem;
+    margin-bottom: 1.8rem;
+    display: flex; align-items: flex-start; gap: 0.8rem;
+  }
+  .secret-box i { color: var(--gold); font-size: 1.1rem; margin-top: 2px; flex-shrink: 0; }
+  .secret-box p { font-size: 0.88rem; color: var(--text-muted); line-height: 1.55; }
+  .secret-box p strong { color: var(--gold); }
+
+  .cta-btn-stack { display: flex; flex-direction: column; gap: 0.75rem; }
+  .cta-btn-stack .btn { justify-content: center; width: 100%; }
+  .cta-disclaimer { font-size: 0.75rem; color: var(--text-muted); text-align: center; margin-top: 1rem; line-height: 1.5; }
+
+  /* ---- WORKS ---- */
+  .works { padding: 6rem 5vw; background: var(--bg2); }
+  .works-header { max-width: 600px; margin-bottom: 3.5rem; }
+  .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.8rem; }
+
+  .project-card {
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 12px; overflow: hidden; backdrop-filter: blur(10px);
+    transition: transform 0.3s, box-shadow 0.3s, border-color 0.3s;
+  }
+  .project-card:hover { transform: translateY(-6px); box-shadow: 0 24px 60px rgba(0,0,0,0.35); border-color: rgba(78,205,196,0.4); }
+
+  .card-preview {
+    width: 100%; height: 210px;
+    position: relative; overflow: hidden;
+    background: var(--bg); border-bottom: 1px solid var(--card-border);
+  }
+  .card-preview iframe {
+    position: absolute; top: 0; left: 0;
+    width: 1280px; height: 800px; border: none;
+    transform-origin: top left; pointer-events: none;
+  }
+  .card-preview .preview-overlay {
+    position: absolute; inset: 0;
+    background: var(--overlay);
+    display: flex; align-items: center; justify-content: center;
+    opacity: 0; transition: opacity 0.3s; z-index: 2;
+  }
+  .project-card:hover .preview-overlay { opacity: 1; }
+  .preview-overlay a {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: var(--teal); color: #07111F; font-weight: 600;
+    font-size: 0.85rem; padding: 0.6rem 1.4rem; border-radius: 6px;
+    text-decoration: none; transition: background 0.2s, transform 0.2s;
+  }
+  .preview-overlay a:hover { background: var(--gold); transform: scale(1.04); }
+
+  .loading-skeleton {
+    position: absolute; inset: 0; z-index: 1;
+    background: var(--bg2); display: flex;
+    flex-direction: column; align-items: center; justify-content: center; gap: 10px; padding: 1.5rem;
+  }
+  .skeleton-bar {
+    height: 10px; border-radius: 5px;
+    background: linear-gradient(90deg, rgba(78,205,196,0.08) 25%, rgba(78,205,196,0.18) 50%, rgba(78,205,196,0.08) 75%);
+    background-size: 200% 100%; animation: shimmer 1.8s infinite;
+  }
+  .card-body { padding: 1.4rem 1.5rem 1.6rem; }
+  .card-category { font-family: 'Space Mono', monospace; font-size: 0.65rem; letter-spacing: 0.18em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.4rem; }
+  .card-title { font-family: 'Playfair Display', serif; font-size: 1.2rem; font-weight: 700; color: var(--text); margin-bottom: 0.4rem; }
+  .card-desc { font-size: 0.84rem; color: var(--text-muted); line-height: 1.6; }
+  .preview-fallback {
+    position: absolute; inset: 0; z-index: 1;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 8px; background: var(--bg2);
+  }
+  .preview-fallback i { font-size: 2rem; color: var(--teal); opacity: 0.45; }
+  .preview-fallback span { font-size: 0.75rem; color: var(--text-muted); }
+
+  /* ---- ABOUT ---- */
+  .about { padding: 6rem 5vw; display: flex; align-items: center; gap: 4rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto; }
+  .about-text { flex: 1; min-width: 280px; }
+  .about-text p { color: var(--text-muted); line-height: 1.8; font-size: 1.02rem; margin-top: 1.2rem; max-width: 520px; }
+  .branch-badge {
+    display: inline-flex; align-items: center; gap: 0.5rem;
+    background: rgba(244,185,66,0.1); border: 1px solid rgba(244,185,66,0.3);
+    color: var(--gold); font-size: 0.78rem; font-family: 'Space Mono', monospace;
+    padding: 0.3rem 0.9rem; border-radius: 50px; margin-top: 1rem;
+  }
+  .about-stats { flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr; gap: 1.2rem; min-width: 260px; }
+  .stat-box { background: var(--card-bg); border: 1px solid var(--card-border); border-radius: 10px; padding: 1.4rem 1.2rem; backdrop-filter: blur(10px); text-align: center; }
+  .stat-num { font-family: 'Playfair Display', serif; font-size: 2.4rem; font-weight: 900; color: var(--teal); line-height: 1; }
+  .stat-label { font-size: 0.78rem; color: var(--text-muted); margin-top: 0.3rem; letter-spacing: 0.05em; }
+
+  /* ---- CONTACT ---- */
+  .contact { padding: 6rem 5vw; background: var(--bg2); text-align: center; }
+  .contact-inner { max-width: 680px; margin: 0 auto; }
+  .contact-inner > p { color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin: 0.6rem 0 2.5rem; }
+  .contact-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; }
+  .contact-item {
+    display: inline-flex; align-items: center; gap: 0.6rem;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    border-radius: 8px; padding: 0.75rem 1.3rem;
+    font-size: 0.9rem; color: var(--text); text-decoration: none;
+    transition: border-color 0.25s, color 0.25s, transform 0.2s; backdrop-filter: blur(10px);
+  }
+  .contact-item i { color: var(--teal); font-size: 1rem; }
+  .contact-item:hover { border-color: var(--teal); color: var(--teal); transform: translateY(-2px); }
+  .social-row { display: flex; gap: 1rem; justify-content: center; margin-top: 1.5rem; }
+  .social-btn {
+    width: 46px; height: 46px; border-radius: 50%;
+    background: var(--card-bg); border: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: center;
+    color: var(--text-muted); font-size: 1.1rem;
+    text-decoration: none; transition: all 0.25s; backdrop-filter: blur(10px);
+  }
+  .social-btn:hover { background: var(--teal); color: #07111F; border-color: var(--teal); transform: translateY(-3px); }
+  .social-btn.instagram:hover { background: linear-gradient(135deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888); border-color: transparent; color: #fff; }
+  .social-btn.facebook:hover { background: #1877F2; border-color: #1877F2; color: #fff; }
+  .social-btn.linkedin:hover { background: #0A66C2; border-color: #0A66C2; color: #fff; }
+
+  /* ---- FOOTER ---- */
+  footer {
+    padding: 1.8rem 5vw; border-top: 1px solid var(--card-border);
+    display: flex; align-items: center; justify-content: space-between; flex-wrap: wrap; gap: 0.8rem;
+  }
+  footer p { font-size: 0.8rem; color: var(--text-muted); }
+  footer a { color: var(--teal); text-decoration: none; }
+
+  /* ---- ANIMATIONS ---- */
+  @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
+  @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
+
+  /* ---- RESPONSIVE ---- */
+  @media (max-width: 900px) {
+    .cta-grid { grid-template-columns: 1fr; gap: 3rem; }
+  }
+  @media (max-width: 768px) {
+    .nav-center { display: none; }
+    .hamburger { display: block; }
+    .works-grid { grid-template-columns: 1fr; }
+    .about { flex-direction: column; }
+    .about-stats { width: 100%; }
+  }
+</style>
+</head>
+<body>
+
+<!-- NAV -->
+<nav>
+  <a href="#" class="nav-logo">Aitai<span>.</span></a>
+  <ul class="nav-center">
+    <li><a href="#works">Works</a></li>
+    <li><a href="#about">About</a></li>
+    <li><a href="#start">Get Started</a></li>
+    <li><a href="#contact">Contact</a></li>
+  </ul>
+  <div class="nav-right">
+    <button class="theme-toggle" onclick="toggleTheme()" aria-label="Toggle theme">
+      <i class="fas fa-moon theme-icon moon"></i>
+      <i class="fas fa-sun theme-icon sun"></i>
+    </button>
+    <button class="hamburger" onclick="toggleMobileMenu()"><i class="fas fa-bars"></i></button>
+  </div>
+</nav>
+<div class="mobile-nav" id="mobileNav">
+  <a href="#works" onclick="closeMobileMenu()">Works</a>
+  <a href="#about" onclick="closeMobileMenu()">About</a>
+  <a href="#start" onclick="closeMobileMenu()">Get Started</a>
+  <a href="#contact" onclick="closeMobileMenu()">Contact</a>
+</div>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg-circle c1"></div>
+  <div class="hero-bg-circle c2"></div>
+  <div class="hero-bg-circle c3"></div>
+  <span class="hero-tag">✦ Digital Studio · A Branch of Aitai Techvolution</span>
+  <h1>Your Business Deserves a Website That Works as <em>Hard as You Do</em></h1>
+  <p>We design and build websites tailored to your brand — so you can stop chasing leads and start closing them, even while you sleep.</p>
+  <div class="hero-cta">
+    <a href="#start" class="btn btn-gold"><i class="fas fa-rocket"></i> Get Your Website Now</a>
+    <a href="#works" class="btn btn-outline"><i class="fas fa-eye"></i> See Our Work</a>
+  </div>
+</section>
+
+<!-- PAIN / CTA SECTION -->
+<section class="cta-section" id="start">
+  <div class="cta-grid">
+
+    <!-- LEFT: The real cost of waiting -->
+    <div class="cta-left">
+      <div class="cta-alarm"><i class="fas fa-hourglass-half"></i> Think About This</div>
+      <h2>Six Months From Now, Will You Wish You Had <em>Started Today?</em></h2>
+
+      <p>
+        Right now, every day you operate without a professional website, <strong>you are personally handling the work a website could automate for you.</strong>
+      </p>
+
+      <ul class="pain-list">
+        <li><i class="fas fa-times-circle"></i> Replying the same DMs over and over — prices, availability, how to order</li>
+        <li><i class="fas fa-times-circle"></i> Sending the same product photos and videos every single time</li>
+        <li><i class="fas fa-times-circle"></i> Watching potential buyers scroll past because you have no credible presence</li>
+        <li><i class="fas fa-times-circle"></i> Losing 30–60% of your sales to competitors who simply <em>look more professional</em></li>
+      </ul>
+
+      <div class="future-box">
+        Imagine it's six months from now. Your website has been live. Customers find you, browse your work, read your story — and contact you. You wake up to enquiries. You close deals you from those you never even spoke to first. What would that be worth to you?
+      </div>
+
+      <p>
+        <span class="hl">Your website doesn't sleep. It doesn't get tired. It doesn't forget to follow up.</span> It represents you perfectly, 24 hours a day — and it pays for itself many times over.
+      </p>
+    </div>
+
+    <!-- RIGHT: Offer card -->
+    <div>
+      <div class="cta-right-card">
+        <h3>We Build <em>Your</em> Website — Designed for Your Brand &amp; Goals</h3>
+        <p>A new site, built from scratch around what makes your business unique. Not a template. Not generic. Yours.</p>
+
+        <ul class="bonus-list">
+          <li><i class="fas fa-gift"></i> <span><strong>Free bonus</strong> for the first client in each industry — pharmacy, fashion, real estate, food, ministry &amp; more</span></li>
+          <li><i class="fas fa-paint-brush"></i> <span>Custom design matched to your brand colours, tone and audience</span></li>
+          <li><i class="fas fa-bolt"></i> <span>Fast turnaround — we move at your pace</span></li>
+          <li><i class="fas fa-headset"></i> <span>We handle everything — you just show up and approve</span></li>
+        </ul>
+
+        <div class="secret-box">
+          <i class="fas fa-lock"></i>
+          <p>
+            <strong>Our client secret:</strong> Every site we build includes a hidden strategy we only share with paying clients — a specific setup that turns your website into a sales engine that generates enquiries while you sleep. This isn't something we advertise.
+          </p>
+        </div>
+
+        <div class="cta-btn-stack">
+          <a href="#contact" class="btn btn-gold"><i class="fas fa-rocket"></i> Claim Your Free Bonus &amp; Start Now</a>
+          <a href="#contact" class="btn btn-ghost"><i class="fas fa-phone"></i> Contact Us Today</a>
+        </div>
+
+        <p class="cta-disclaimer">
+          Free bonuses are limited to <strong>one per industry sector</strong>. Once claimed, they're gone.<br>
+          Don't let a competitor in your sector take yours first.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+<!-- WORKS -->
+<section class="works" id="works">
+  <div class="works-header">
+    <div class="section-label">// Portfolio</div>
+    <h2 class="section-title">What We've Built for <em>Others</em> — We'll Build for <em>You</em></h2>
+  </div>
+  <div class="works-grid" id="worksGrid"></div>
+</section>
+
+<!-- ABOUT -->
+<section id="about">
+  <div class="about">
+    <div class="about-text">
+      <div class="section-label">// About Us</div>
+      <h2 class="section-title">Crafting the <em>Future</em> of Web</h2>
+      <p>Aitai Techvolution is a digital agency building modern, high-performance websites for businesses across healthcare, fashion, real estate, ministry, and beyond.</p>
+      <p style="margin-top:0.8rem;">Every pixel, interaction, and line of code is intentional — designed to help our clients stand out online and grow their impact.</p>
+      <div class="branch-badge"><i class="fas fa-code-branch"></i> A Branch of Aitai Techvolution</div>
+    </div>
+    <div class="about-stats">
+      <div class="stat-box">
+        <div class="stat-num">25+</div>
+        <div class="stat-label">Projects Delivered</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">10+</div>
+        <div class="stat-label">Industries Served</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">98%</div>
+        <div class="stat-label">Client Satisfaction</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-num">30+</div>
+        <div class="stat-label">Global Clients</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- CONTACT -->
+<section class="contact" id="contact">
+  <div class="contact-inner">
+    <div class="section-label">// Contact</div>
+    <h2 class="section-title">Your Website is One <em>Conversation Away</em></h2>
+    <p>Reach out now. Tell us about your business and we'll show you exactly what your website could look like — and what it could do for you.</p>
+
+    <div class="contact-grid">
+      <a href="tel:07063730930" class="contact-item"><i class="fas fa-phone"></i> 0706 373 0930</a>
+      <a href="tel:08112159799" class="contact-item"><i class="fas fa-phone"></i> 0811 215 9799</a>
+      <a href="mailto:aitaitechvolution@gmail.com" class="contact-item"><i class="fas fa-envelope"></i> aitaitechvolution@gmail.com</a>
+    </div>
+
+    <div class="social-row">
+      <a href="https://instagram.com" target="_blank" class="social-btn instagram" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
+      <a href="https://facebook.com" target="_blank" class="social-btn facebook" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
+      <a href="https://linkedin.com" target="_blank" class="social-btn linkedin" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
+    </div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<footer>
+  <p>© <span id="footer-year"></span> <a href="#">Aitai Techvolution</a>. All rights reserved.</p>
+  <p style="font-family:'Space Mono',monospace;font-size:0.7rem;">A Branch of Aitai Techvolution</p>
+</footer>
+
+<script>
+  document.getElementById('footer-year').textContent = new Date().getFullYear();
+
+  const projects = [
+    { url: 'https://donatexdiagnostics.com.ng', name: 'Donatex Diagnostics', category: 'Pharmacy' },
+    { url: 'https://zoeessence.vercel.app', name: 'Zoe Essence', category: 'Fashion E-Commerce' },
+    { url: 'https://healthnexuspharmacy.com.ng', name: 'Healthnexus Pharmacy', category: 'Pharmacy' },
+    { url: 'https://cloudtransio.vercel.app', name: 'CloudTransio', category: 'DevOps Startup' },
+    { url: 'https://livingwatersglobalministry.org', name: 'Living Waters Global Ministry', category: 'Ministry' },
+    { url: 'https://aitalfashion.vercel.app', name: 'Aital Fashion', category: 'Fashion E-Commerce' },
+    { url: 'https://aitalinteriors.vercel.app', name: 'Aital Interiors', category: 'Interior Design' },
+    { url: 'https://adekunletherealtor.vercel.app', name: 'Adekunle The Realtor', category: 'Real Estate' },
+    { url: 'https://residahousing.vercel.app', name: 'Resida Housing', category: 'Real Estate' },
+    { url: 'https://famadaninternational.vercel.app', name: 'Famadan International', category: 'International' },
+    { url: 'https://peacefullfoods.vercel.app', name: 'Peacefull Foods', category: 'Food & Beverage' },
+  ];
+
+  const IFRAME_W = 1280;
+
+  function getCategoryDesc(cat) {
+    const map = {
+      'Pharmacy': 'Full-featured pharmacy platform with product listings and health services.',
+      'Fashion E-Commerce': 'Stylish e-commerce store for fashion collections and online sales.',
+      'DevOps Startup': 'Modern landing page for a cloud and DevOps services company.',
+      'Ministry': 'Inspiring digital home for a global Christian ministry.',
+      'Interior Design': 'Portfolio-style site showcasing premium interior design services.',
+      'Real Estate': 'Property listings and realtor presence for real estate professionals.',
+      'International': 'Corporate site for international trade and business services.',
+      'Food & Beverage': 'Delightful brand site for a food company.',
+    };
+    return map[cat] || 'A custom digital experience crafted with care.';
+  }
+
+  function renderCards() {
+    const grid = document.getElementById('worksGrid');
+    projects.forEach((proj, idx) => {
+      const card = document.createElement('div');
+      card.className = 'project-card';
+      card.innerHTML = `
+        <div class="card-preview" id="cp${idx}">
+          <div class="loading-skeleton" id="sk${idx}">
+            <div class="skeleton-bar" style="width:60%"></div>
+            <div class="skeleton-bar" style="width:80%"></div>
+            <div class="skeleton-bar" style="width:50%"></div>
+          </div>
+          <iframe id="fr${idx}" src="${proj.url}" title="${proj.name} preview" loading="lazy" sandbox="allow-scripts allow-same-origin"></iframe>
+          <div class="preview-overlay">
+            <a href="${proj.url}" target="_blank" rel="noopener noreferrer">
+              <i class="fas fa-arrow-up-right-from-square"></i> Visit Site
+            </a>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="card-category">${proj.category}</div>
+          <div class="card-title">${proj.name}</div>
+          <div class="card-desc">${getCategoryDesc(proj.category)}</div>
+        </div>
+      `;
+      grid.appendChild(card);
+
+      requestAnimationFrame(() => {
+        scaleIframe(idx);
+        const fr = document.getElementById('fr' + idx);
+        fr.addEventListener('load', () => { const sk = document.getElementById('sk'+idx); if(sk) sk.style.display='none'; });
+        setTimeout(() => { const sk = document.getElementById('sk'+idx); if(sk) sk.style.display='none'; }, 7000);
+      });
+    });
+
+    window.addEventListener('resize', () => { projects.forEach((_, i) => scaleIframe(i)); });
+  }
+
+  function scaleIframe(idx) {
+    const cp = document.getElementById('cp' + idx);
+    const fr = document.getElementById('fr' + idx);
+    if (!cp || !fr) return;
+    const scale = cp.offsetWidth / IFRAME_W;
+    fr.style.transform = `scale(${scale})`;
+  }
+
+  function toggleTheme() {
+    const html = document.documentElement;
+    const next = html.getAttribute('data-theme') === 'dark' ? 'light' : 'dark';
+    html.setAttribute('data-theme', next);
+    localStorage.setItem('theme', next);
+  }
+  const saved = localStorage.getItem('theme');
+  if (saved) document.documentElement.setAttribute('data-theme', saved);
+
+  function toggleMobileMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
+  function closeMobileMenu() { document.getElementById('mobileNav').classList.remove('open'); }
+
+  renderCards();
+</script>
+</body>
+</html>
