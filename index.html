@@ -71,8 +71,17 @@
     font-family: 'Space Mono', monospace; font-weight: 700;
     font-size: 1.05rem; letter-spacing: 0.04em;
     color: var(--teal); text-decoration: none; flex-shrink: 0;
+    display: flex;
+    align-items: center;
   }
-  .nav-logo span { color: var(--gold); }
+  .nav-logo img{
+    width: 45px;
+    height: fit-content;
+  }
+  .nav-logo p { 
+    color: var(--gold); 
+    font-size: xx-small;
+  }
   .nav-center {
     display: flex; align-items: center; gap: 2rem; list-style: none;
     position: absolute; left: 50%; transform: translateX(-50%);
@@ -410,7 +419,14 @@
 
 <!-- NAV -->
 <nav>
-  <a href="#" class="nav-logo">Aitai<span>.</span></a>
+  <!-- <a href="#" class="nav-logo">Aitai<span>.</span></a> -->
+  <a href="#" class="nav-logo">
+    <img src="logo.png" alt="Aital Techvolution">
+    <p>
+      Aital <br>
+      Webs
+    </p>
+  </a>
   <ul class="nav-center">
     <li><a href="#works">Works</a></li>
     <li><a href="#about">About</a></li>
@@ -437,7 +453,7 @@
   <div class="hero-bg-circle c1"></div>
   <div class="hero-bg-circle c2"></div>
   <div class="hero-bg-circle c3"></div>
-  <span class="hero-tag">✦ Digital Studio · A Branch of Aitai Techvolution</span>
+  <span class="hero-tag">Aitai Techvolution</span>
   <h1>Your Business Deserves a Website That Works as <em>Hard as You Do</em></h1>
   <p>We design and build websites tailored to your brand — so you can stop chasing leads and start closing them, even while you sleep.</p>
   <div class="hero-cta">
@@ -573,7 +589,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© <span id="footer-year"></span> <a href="#">Aitai Techvolution</a>. All rights reserved.</p>
+  <p>© <span id="footer-year"></span> <a href="#">Aitai Webs</a>. All rights reserved.</p>
   <p style="font-family:'Space Mono',monospace;font-size:0.7rem;">A Branch of Aitai Techvolution</p>
 </footer>
 
