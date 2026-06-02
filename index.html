@@ -71,17 +71,8 @@
     font-family: 'Space Mono', monospace; font-weight: 700;
     font-size: 1.05rem; letter-spacing: 0.04em;
     color: var(--teal); text-decoration: none; flex-shrink: 0;
-    display: flex;
-    align-items: center;
   }
-  .nav-logo img{
-    width: 45px;
-    height: fit-content;
-  }
-  .nav-logo p { 
-    color: var(--gold); 
-    font-size: xx-small;
-  }
+  .nav-logo span { color: var(--gold); }
   .nav-center {
     display: flex; align-items: center; gap: 2rem; list-style: none;
     position: absolute; left: 50%; transform: translateX(-50%);
@@ -402,6 +393,41 @@
   @keyframes fadeUp { from { opacity: 0; transform: translateY(24px); } to { opacity: 1; transform: translateY(0); } }
   @keyframes shimmer { 0% { background-position: 200% 0; } 100% { background-position: -200% 0; } }
 
+  /* ---- COUNTDOWN ---- */
+  .bonus-countdown {
+    display: flex; align-items: center; gap: 0.5rem;
+    margin-bottom: 1.4rem;
+    flex-wrap: wrap;
+  }
+  .countdown-label {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+    color: #e05a5a; font-weight: 700;
+    display: flex; align-items: center; gap: 0.35rem;
+  }
+  .countdown-label i { font-size: 0.7rem; animation: blink-dot 1s step-end infinite; }
+  @keyframes blink-dot { 0%,100%{opacity:1;} 50%{opacity:0.2;} }
+  .countdown-units { display: flex; gap: 0.35rem; align-items: center; }
+  .cd-unit {
+    display: flex; flex-direction: column; align-items: center;
+    background: rgba(224,90,90,0.1);
+    border: 1px solid rgba(224,90,90,0.3);
+    border-radius: 5px;
+    padding: 0.25rem 0.5rem;
+    min-width: 36px;
+  }
+  .cd-num {
+    font-family: 'Space Mono', monospace;
+    font-size: 0.88rem; font-weight: 700;
+    color: #e05a5a; line-height: 1.2;
+    letter-spacing: 0.05em;
+  }
+  .cd-lbl {
+    font-size: 0.55rem; color: rgba(224,90,90,0.7);
+    text-transform: uppercase; letter-spacing: 0.08em;
+  }
+  .cd-sep { color: #e05a5a; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; opacity: 0.6; }
+
   /* ---- RESPONSIVE ---- */
   @media (max-width: 900px) {
     .cta-grid { grid-template-columns: 1fr; gap: 3rem; }
@@ -419,14 +445,7 @@
 
 <!-- NAV -->
 <nav>
-  <!-- <a href="#" class="nav-logo">Aitai<span>.</span></a> -->
-  <a href="#" class="nav-logo">
-    <img src="logo.png" alt="Aital Techvolution">
-    <p>
-      Aital <br>
-      Webs
-    </p>
-  </a>
+  <a href="#" class="nav-logo">Aitai<span>.</span></a>
   <ul class="nav-center">
     <li><a href="#works">Works</a></li>
     <li><a href="#about">About</a></li>
@@ -453,8 +472,8 @@
   <div class="hero-bg-circle c1"></div>
   <div class="hero-bg-circle c2"></div>
   <div class="hero-bg-circle c3"></div>
-  <span class="hero-tag">Aitai Techvolution</span>
-  <h1>Your Business Deserves a Website That Works as <em>Hard as You Do</em></h1>
+  <span class="hero-tag">✦ Digital Studio · A Branch of Aitai Techvolution</span>
+  <h1>Your Business Deserves a Website That Works as <em>Hard &amp; Smart as You Do</em></h1>
   <p>We design and build websites tailored to your brand — so you can stop chasing leads and start closing them, even while you sleep.</p>
   <div class="hero-cta">
     <a href="#start" class="btn btn-gold"><i class="fas fa-rocket"></i> Get Your Website Now</a>
@@ -497,8 +516,21 @@
         <h3>We Build <em>Your</em> Website — Designed for Your Brand &amp; Goals</h3>
         <p>A new site, built from scratch around what makes your business unique. Not a template. Not generic. Yours.</p>
 
+        <div class="bonus-countdown">
+          <span class="countdown-label"><i class="fas fa-circle"></i> Offer ends in</span>
+          <div class="countdown-units">
+            <div class="cd-unit"><span class="cd-num" id="cd-d">07</span><span class="cd-lbl">Days</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-h">00</span><span class="cd-lbl">Hrs</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-m">00</span><span class="cd-lbl">Min</span></div>
+            <span class="cd-sep">:</span>
+            <div class="cd-unit"><span class="cd-num" id="cd-s">00</span><span class="cd-lbl">Sec</span></div>
+          </div>
+        </div>
+
         <ul class="bonus-list">
-          <li><i class="fas fa-gift"></i> <span><strong>Free bonus</strong> for the first client in each industry — pharmacy, fashion, real estate, food, ministry &amp; more</span></li>
+          <li><i class="fas fa-gift"></i> <span><strong>Get access to 3 Secret Free bonuses</strong> for the first client in each industry — pharmacy, fashion, real estate, food, ministry &amp; more</span></li>
           <li><i class="fas fa-paint-brush"></i> <span>Custom design matched to your brand colours, tone and audience</span></li>
           <li><i class="fas fa-bolt"></i> <span>Fast turnaround — we move at your pace</span></li>
           <li><i class="fas fa-headset"></i> <span>We handle everything — you just show up and approve</span></li>
@@ -559,7 +591,7 @@
         <div class="stat-label">Client Satisfaction</div>
       </div>
       <div class="stat-box">
-        <div class="stat-num">30+</div>
+        <div class="stat-num">20+</div>
         <div class="stat-label">Global Clients</div>
       </div>
     </div>
@@ -589,7 +621,7 @@
 
 <!-- FOOTER -->
 <footer>
-  <p>© <span id="footer-year"></span> <a href="#">Aitai Webs</a>. All rights reserved.</p>
+  <p>© <span id="footer-year"></span> <a href="#">Aitai Techvolution</a>. All rights reserved.</p>
   <p style="font-family:'Space Mono',monospace;font-size:0.7rem;">A Branch of Aitai Techvolution</p>
 </footer>
 
@@ -683,6 +715,39 @@
 
   function toggleMobileMenu() { document.getElementById('mobileNav').classList.toggle('open'); }
   function closeMobileMenu() { document.getElementById('mobileNav').classList.remove('open'); }
+
+  // --- COUNTDOWN (7 days from first visit, stored in localStorage) ---
+  (function() {
+    const KEY = 'aitai_bonus_deadline';
+    let deadline = localStorage.getItem(KEY);
+    if (!deadline) {
+      deadline = Date.now() + 7 * 24 * 60 * 60 * 1000;
+      localStorage.setItem(KEY, deadline);
+    } else {
+      deadline = parseInt(deadline);
+    }
+    function pad(n) { return String(n).padStart(2, '0'); }
+    function tick() {
+      const diff = deadline - Date.now();
+      if (diff <= 0) {
+        document.getElementById('cd-d').textContent = '00';
+        document.getElementById('cd-h').textContent = '00';
+        document.getElementById('cd-m').textContent = '00';
+        document.getElementById('cd-s').textContent = '00';
+        return;
+      }
+      const d = Math.floor(diff / 86400000);
+      const h = Math.floor((diff % 86400000) / 3600000);
+      const m = Math.floor((diff % 3600000) / 60000);
+      const s = Math.floor((diff % 60000) / 1000);
+      document.getElementById('cd-d').textContent = pad(d);
+      document.getElementById('cd-h').textContent = pad(h);
+      document.getElementById('cd-m').textContent = pad(m);
+      document.getElementById('cd-s').textContent = pad(s);
+    }
+    tick();
+    setInterval(tick, 1000);
+  })();
 
   renderCards();
 </script>
