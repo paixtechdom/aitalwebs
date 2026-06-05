@@ -68,46 +68,6 @@
     pointer-events: none; z-index: 0; opacity: 0.35;
   }
 
-  /* ═══════════════════════════════════════
-     GLOBAL PAGE VIDEO BACKGROUND
-  ═══════════════════════════════════════ */
-  .page-video-bg {
-    position: fixed; inset: 0;
-    z-index: -1; overflow: hidden;
-    pointer-events: none;
-  }
-  .page-video-bg video {
-    position: absolute;
-    top: 50%; left: 50%;
-    width: 177.78vh;
-    height: 56.25vw;
-    min-width: 100%;
-    min-height: 100%;
-    transform: translate(-50%, -50%);
-    object-fit: cover;
-    opacity: 1;
-  }
-  /* Overlay covers video heavily everywhere — faint bleed through */
-  .page-video-overlay {
-    position: absolute; inset: 0;
-    background: var(--bg);
-    opacity: 0.92;
-    transition: opacity 0.7s ease;
-  }
-  /* About section active — lift the overlay so video shows clearly */
-  .page-video-bg.about-active .page-video-overlay {
-    opacity: 0.15;
-  }
-    /* Hero and footer get their own solid bg so page video doesn't bleed through */
-  .hero, footer {
-    isolation: isolate;
-  }
-  footer {
-    background: var(--bg);
-    position: relative;
-    z-index: 2;
-  }
-
   /* NAV */
   nav {
     position: fixed; top: 0; left: 0; right: 0; z-index: 1000;
@@ -245,8 +205,8 @@
     background: linear-gradient(
       to left,
       rgba(7,17,31,0.70) 0%,
-      rgba(7,17,31,1) 50%,
-      rgba(7,17,31,1) 100%
+      rgba(7,17,31,0.55) 50%,
+      rgba(7,17,31) 100%
     );
   }
 
@@ -326,7 +286,7 @@
   .btn-ghost:hover { background: rgba(255,255,255,0.12); transform: translateY(-2px); }
 
   /* SHARED */
-  section { position: relative; z-index: 1; background: transparent; }
+  section { position: relative; z-index: 1; }
   .section-label {
     font-family: 'Space Mono', monospace; font-size: 0.7rem; letter-spacing: 0.25em;
     text-transform: uppercase; color: var(--teal); margin-bottom: 0.6rem;
@@ -362,7 +322,7 @@
 
   /* CTA SECTION */
   .cta-section {
-    background: rgba(10,24,37,0.88);
+    background: var(--cta-bg);
     border-top: 1px solid var(--card-border); border-bottom: 1px solid var(--card-border);
     padding: 6rem 5vw; position: relative; overflow: hidden;
   }
@@ -511,7 +471,7 @@
   .cd-sep { color: #db3939; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; opacity: 0.6; animation: blink-dot 1s step-end infinite; }
 
   /* WORKS */
-  .works { padding: 6rem 5vw; background: rgba(13,31,45,0.85); }
+  .works { padding: 6rem 5vw; background: var(--bg2); }
   .works-header { max-width: 600px; margin-bottom: 3.5rem; }
   .works-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(340px, 1fr)); gap: 1.8rem; }
 
@@ -579,17 +539,41 @@
     padding: 0;
     position: relative;
     overflow: hidden;
-    background: transparent;
   }
 
+  /* Video wrapper */
+  .about-video-bg {
+    position: absolute; inset: 0;
+    z-index: 0; overflow: hidden;
+    pointer-events: none;
+  }
+  .about-video-bg video {
+    position: absolute;
+    top: 50%; left: 50%;
+    width: 177.78vh;
+    height: 56.25vw;
+    min-width: 100%;
+    min-height: 100%;
+    transform: translate(-50%, -50%);
+    object-fit: cover;
+  }
 
+  /* Deep overlay so text is crisp over any video content */
+  .about-video-overlay {
+    position: absolute; inset: 0; z-index: 1;
+    background: linear-gradient(
+      135deg,
+      rgba(7,17,31,0.88) 0%,
+      rgba(7,17,31,0.75) 40%,
+      rgba(7,17,31,0.82) 100%
+    );
+  }
 
   .about {
     padding: 6rem 5vw;
     display: flex; align-items: center; gap: 4rem; flex-wrap: wrap;
     max-width: 1200px; margin: 0 auto;
     position: relative; z-index: 2;
-    background: linear-gradient(135deg, rgba(7,17,31,0.55) 0%, rgba(7,17,31,0.35) 100%);
   }
 
   .about-text { flex: 1; min-width: 280px; }
@@ -617,7 +601,7 @@
   .stat-label { font-size: 0.78rem; color: rgba(232,244,248,0.65); margin-top: 0.3rem; letter-spacing: 0.05em; }
 
   /* CONTACT */
-  .contact { padding: 6rem 5vw; background: rgba(13,31,45,0.85); text-align: center; }
+  .contact { padding: 6rem 5vw; background: var(--bg2); text-align: center; }
   .contact-inner { max-width: 680px; margin: 0 auto; }
   .contact-inner > p { color: var(--text-muted); font-size: 1rem; line-height: 1.7; margin: 0.6rem 0 2.5rem; }
   .contact-grid { display: flex; flex-wrap: wrap; justify-content: center; gap: 1rem; margin-bottom: 2.5rem; }
@@ -672,7 +656,7 @@
   @keyframes orbFloat3 { 0%,100%{transform:translate(0,0) rotate(0deg);} 50%{transform:translate(-80px,80px) rotate(180deg) scale(1.2);} }
 
   /* GALLERY */
-  .gallery { padding: 6rem 5vw; background: rgba(7,17,31,0.82); position: relative; overflow: hidden; z-index: 1; }
+  .gallery { padding: 6rem 5vw; background: var(--bg); position: relative; overflow: hidden; z-index: 1; }
   .gallery::before { content:''; position:absolute; inset:0; background-image: linear-gradient(rgba(78,205,196,0.03) 1px, transparent 1px), linear-gradient(90deg, rgba(78,205,196,0.03) 1px, transparent 1px); background-size:60px 60px; pointer-events:none; }
   .gallery::after { content:''; position:absolute; inset:0; background: radial-gradient(ellipse at 50% 0%, rgba(78,205,196,0.06) 0%, transparent 60%); pointer-events:none; }
   .gallery-header { max-width:700px; margin-bottom:3rem; position:relative; z-index:1; }
@@ -751,14 +735,6 @@
 
 <div class="cursor-spotlight" id="cursorSpotlight"></div>
 <canvas id="bg-canvas"></canvas>
-
-<!-- Global page background video — faint everywhere, clear in #about -->
-<div class="page-video-bg" id="pageVideoBg">
-  <video autoplay muted loop playsinline id="pageVideo">
-    <source src="video/video2.mp4" type="video/mp4">
-  </video>
-  <div class="page-video-overlay" id="pageVideoOverlay"></div>
-</div>
 
 <!-- NAV -->
 <nav id="mainNav">
@@ -965,6 +941,11 @@
 ════════════════════════════════════════ -->
 <section id="about" class="about-section">
 
+  <div class="about-video-bg">
+    <video autoplay muted loop playsinline>
+      <source src="video/video2.mp4" type="video/mp4">
+    </video>
+  </div>
 
   <!-- Dark overlay -->
   <div class="about-video-overlay"></div>
@@ -1339,25 +1320,6 @@
     });
 
     renderGrid();
-  })();
-
-  /* ABOUT VIDEO — show clearly when about section is in view */
-  (function() {
-    const pageBg = document.getElementById('pageVideoBg');
-    const aboutSection = document.getElementById('about');
-    if (!pageBg || !aboutSection) return;
-
-    const aboutObserver = new IntersectionObserver((entries) => {
-      entries.forEach(entry => {
-        if (entry.isIntersecting) {
-          pageBg.classList.add('about-active');
-        } else {
-          pageBg.classList.remove('about-active');
-        }
-      });
-    }, { threshold: 0.2 });
-
-    aboutObserver.observe(aboutSection);
   })();
 
   /* INIT */
