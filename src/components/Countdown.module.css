@@ -1,0 +1,21 @@
+.wrap {
+  display: flex; align-items: center; gap: 0.5rem;
+  margin-bottom: 1.4rem; flex-wrap: wrap;
+}
+.label {
+  font-family: 'Space Mono', monospace; font-size: 0.68rem;
+  letter-spacing: 0.1em; text-transform: uppercase;
+  color: #db3939; font-weight: 700;
+  display: flex; align-items: center; gap: 0.35rem;
+}
+.label i { font-size: 0.7rem; animation: blinkDot 1s step-end infinite; }
+.units { display: flex; align-items: center; }
+.group { display: flex; align-items: center; }
+.sep { color: #db3939; font-weight: 700; font-size: 0.85rem; margin-bottom: 8px; opacity: 0.6; animation: blinkDot 1s step-end infinite; margin: 0 3px 8px; }
+.unit {
+  display: flex; flex-direction: column; align-items: center;
+  background: rgba(224,90,90,0.1); border: 1px solid rgba(224,90,90,0.3);
+  border-radius: 5px; padding: 0.25rem 0.5rem; min-width: 36px;
+}
+.num { font-family: 'Space Mono', monospace; font-size: 0.88rem; font-weight: 700; color: #db3939; line-height: 1.2; }
+.unitLbl { font-size: 0.55rem; color: rgba(224,90,90,0.7); text-transform: uppercase; letter-spacing: 0.08em; }

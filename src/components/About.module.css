@@ -1,0 +1,60 @@
+.section { position: relative; overflow: hidden; }
+
+.videoBg { position: absolute; inset: 0; z-index: 0; overflow: hidden; pointer-events: none; }
+.videoBg video {
+  position: absolute; top: 50%; left: 50%;
+  width: 177.78vh; height: 56.25vw; min-width: 100%; min-height: 100%;
+  transform: translate(-50%, -50%); object-fit: cover;
+}
+.videoOverlay {
+  position: absolute; inset: 0; z-index: 1;
+  background: linear-gradient(135deg, rgba(7,17,31,0.88) 0%, rgba(7,17,31,0.75) 40%, rgba(7,17,31,0.82) 100%);
+}
+
+.inner {
+  padding: 6rem 5vw; display: flex; align-items: center;
+  gap: 4rem; flex-wrap: wrap; max-width: 1200px; margin: 0 auto;
+  position: relative; z-index: 2;
+}
+
+.textCol {
+  flex: 1; min-width: 280px;
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.textCol.visible { opacity: 1; transform: translateX(0); }
+.textCol p { color: rgba(232,244,248,0.75); line-height: 1.8; font-size: 1rem; margin-top: 1.2rem; max-width: 520px; }
+.h2 { color: #fff !important; }
+
+.badge {
+  display: inline-flex; align-items: center; gap: 0.5rem;
+  background: rgba(244,185,66,0.1); border: 1px solid rgba(244,185,66,0.3);
+  color: var(--gold); font-size: 0.78rem; font-family: 'Space Mono', monospace;
+  padding: 0.3rem 0.9rem; border-radius: 50px; margin-top: 1rem;
+  transition: background 0.3s, transform 0.3s, box-shadow 0.3s; cursor: default;
+}
+.badge:hover { background: rgba(244,185,66,0.18); transform: translateY(-2px); box-shadow: 0 4px 16px rgba(244,185,66,0.2); }
+
+.statsGrid {
+  flex: 0 0 auto; display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1.2rem; min-width: 260px;
+}
+
+.statBox {
+  background: rgba(13,31,45,0.8); border: 1px solid rgba(78,205,196,0.2);
+  border-radius: 10px; padding: 1.4rem 1.2rem; backdrop-filter: blur(16px);
+  text-align: center; transition: transform 0.3s cubic-bezier(0.34,1.4,0.64,1), box-shadow 0.3s, border-color 0.3s;
+  cursor: default;
+}
+.statBox:hover { transform: translateY(-6px) scale(1.03); box-shadow: 0 12px 40px rgba(78,205,196,0.15); border-color: rgba(78,205,196,0.4); }
+
+.statNum {
+  font-family: 'Montserrat', sans-serif; font-size: 2.4rem;
+  font-weight: 900; color: var(--teal); line-height: 1; display: block;
+}
+.statLabel { font-size: 0.78rem; color: rgba(232,244,248,0.65); margin-top: 0.3rem; letter-spacing: 0.05em; }
+
+@media (max-width: 768px) {
+  .inner { flex-direction: column; }
+  .statsGrid { width: 100%; }
+}

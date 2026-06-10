@@ -1,0 +1,138 @@
+.section {
+  padding: 6rem 5vw; background: var(--bg); position: relative; overflow: hidden;
+}
+.section::before {
+  content: ''; position: absolute; inset: 0; pointer-events: none;
+  background:
+    radial-gradient(ellipse at 20% 50%, rgba(78,205,196,0.05) 0%, transparent 60%),
+    radial-gradient(ellipse at 80% 50%, rgba(244,185,66,0.04) 0%, transparent 60%);
+}
+
+.inner {
+  max-width: 1100px; margin: 0 auto;
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 5rem; align-items: start; position: relative; z-index: 1;
+}
+
+/* ── LEFT ── */
+.left {
+  opacity: 0; transform: translateX(-50px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.left.visible { opacity: 1; transform: translateX(0); }
+
+.h2 {
+  font-family: 'Montserrat', sans-serif;
+  font-size: clamp(1.8rem, 3vw, 2.6rem);
+  font-weight: 800; line-height: 1.2; color: var(--text); margin-bottom: 1rem;
+}
+.h2 em { font-style: italic; color: var(--gold); }
+.sub { color: var(--text-muted); line-height: 1.8; font-size: 0.98rem; margin-bottom: 2rem; }
+
+.contactList { list-style: none; display: flex; flex-direction: column; gap: 1rem; margin-bottom: 2rem; }
+.contactList li {
+  display: flex; align-items: center; gap: 0.8rem;
+  font-size: 0.92rem; color: var(--text-muted);
+  transition: color 0.2s, transform 0.2s;
+}
+.contactList li:hover { color: var(--text); transform: translateX(4px); }
+.contactList li i { color: var(--teal); width: 18px; flex-shrink: 0; }
+.contactList a { color: inherit; text-decoration: none; }
+.contactList a:hover { color: var(--teal); }
+
+/* Subscribe strip */
+.subscribeStrip {
+  background: linear-gradient(135deg, rgba(78,205,196,0.08), rgba(244,185,66,0.06));
+  border: 1px solid rgba(78,205,196,0.2); border-radius: 12px; padding: 1.4rem 1.5rem;
+}
+.subscribeStrip h4 {
+  font-family: 'Montserrat', sans-serif; font-size: 1rem; font-weight: 700;
+  color: var(--text); margin-bottom: 0.3rem;
+  display: flex; align-items: center; gap: 0.5rem;
+}
+.subscribeStrip h4 i { color: var(--gold); font-size: 0.9rem; }
+.subscribeStrip p { font-size: 0.82rem; color: var(--text-muted); margin-bottom: 1rem; line-height: 1.5; }
+
+.subscribeRow { display: flex; gap: 0.6rem; flex-wrap: wrap; }
+.subscribeRow input {
+  flex: 1; min-width: 180px;
+  background: var(--card-bg); border: 1.5px solid var(--card-border);
+  border-radius: 6px; padding: 0.7rem 1rem;
+  font-family: 'Poppins', sans-serif; font-size: 0.85rem; color: var(--text);
+  outline: none; transition: border-color 0.25s, box-shadow 0.25s;
+}
+.subscribeRow input:focus { border-color: var(--teal); box-shadow: 0 0 0 3px rgba(78,205,196,0.12); }
+.subscribeRow input::placeholder { color: var(--text-muted); }
+.subscribeRow input:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.subscribeRow button {
+  background: var(--teal); color: #07111F; border: none;
+  border-radius: 6px; padding: 0.7rem 1.3rem;
+  font-family: 'Poppins', sans-serif; font-weight: 600; font-size: 0.85rem;
+  cursor: pointer; white-space: nowrap;
+  display: flex; align-items: center; gap: 0.4rem;
+  transition: background 0.2s, transform 0.2s, box-shadow 0.2s;
+}
+.subscribeRow button:hover:not(:disabled) { background: var(--gold); transform: translateY(-1px); box-shadow: 0 4px 16px rgba(78,205,196,0.25); }
+.subscribeRow button:disabled { opacity: 0.6; cursor: not-allowed; }
+
+.subMsg { font-size: 0.78rem; margin-top: 0.6rem; min-height: 1.2em; }
+.subSuccess { color: var(--teal); }
+.subError   { color: #db3939; }
+
+/* ── RIGHT (form card) ── */
+.formCard {
+  background: var(--card-bg); border: 1px solid var(--card-border);
+  border-radius: 16px; padding: 2.5rem 2rem; backdrop-filter: blur(12px);
+  box-shadow: 0 20px 60px rgba(0,0,0,0.2);
+  transition: border-color 0.4s, box-shadow 0.4s;
+  opacity: 0; transform: translateX(50px);
+  transition: opacity 0.7s ease, transform 0.7s ease, border-color 0.4s, box-shadow 0.4s;
+}
+.formCard.visible { opacity: 1; transform: translateX(0); }
+.formCard:hover { border-color: rgba(78,205,196,0.3); box-shadow: 0 28px 70px rgba(0,0,0,0.28); }
+
+.formCard h3 {
+  font-family: 'Montserrat', sans-serif; font-size: 1.35rem;
+  font-weight: 800; color: var(--text); margin-bottom: 0.3rem;
+}
+.formCard > p { font-size: 0.85rem; color: var(--text-muted); margin-bottom: 1.8rem; line-height: 1.5; }
+
+.formGroup { margin-bottom: 1.2rem; }
+.formGroup label {
+  display: block; font-family: 'Space Mono', monospace; font-size: 0.65rem;
+  letter-spacing: 0.15em; text-transform: uppercase; color: var(--teal); margin-bottom: 0.45rem;
+}
+.formGroup input, .formGroup textarea {
+  width: 100%; background: rgba(7,17,31,0.5); border: 1.5px solid var(--card-border);
+  border-radius: 8px; padding: 0.85rem 1rem;
+  font-family: 'Poppins', sans-serif; font-size: 0.9rem; color: var(--text);
+  outline: none; transition: border-color 0.25s, box-shadow 0.25s, background 0.25s;
+  resize: none;
+}
+.formGroup input:focus, .formGroup textarea:focus {
+  border-color: var(--teal); box-shadow: 0 0 0 3px rgba(78,205,196,0.12);
+  background: rgba(7,17,31,0.7);
+}
+.formGroup input::placeholder, .formGroup textarea::placeholder { color: var(--text-muted); }
+[data-theme='light'] .formGroup input,
+[data-theme='light'] .formGroup textarea { background: rgba(255,255,255,0.7); }
+
+.submitBtn {
+  width: 100%; background: var(--gold); color: #07111F; border: none;
+  border-radius: 8px; padding: 1rem;
+  font-family: 'Poppins', sans-serif; font-weight: 700; font-size: 0.95rem;
+  cursor: pointer; display: flex; align-items: center; justify-content: center; gap: 0.5rem;
+  transition: all 0.25s;
+}
+.submitBtn:hover:not(:disabled) { filter: brightness(1.1); transform: translateY(-2px); box-shadow: 0 10px 30px rgba(244,185,66,0.35); }
+.submitBtn:disabled { opacity: 0.65; cursor: not-allowed; transform: none; }
+
+.formStatus {
+  margin-top: 1rem; padding: 0.75rem 1rem; border-radius: 8px;
+  font-size: 0.85rem; text-align: center; line-height: 1.5;
+}
+.statusSuccess { background: rgba(78,205,196,0.1); border: 1px solid rgba(78,205,196,0.3); color: var(--teal); }
+.statusError   { background: rgba(219,57,57,0.1); border: 1px solid rgba(219,57,57,0.3); color: #db3939; }
+
+@media (max-width: 900px) { .inner { grid-template-columns: 1fr; gap: 3rem; } }
