@@ -1,38 +1,32 @@
-/**
- * Vercel Serverless Function — /api/send-email
- *
- * Proxies email sending to Resend from the server so that:
- *  1. The API key is never exposed to the browser.
- *  2. CORS restrictions on the Resend API are avoided.
- *
- * Set RESEND_API_KEY in your Vercel project's Environment Variables.
- * (Project → Settings → Environment Variables)
- */
+export const config = { runtime: 'nodejs' };
+
 export default async function handler(req, res) {
-  // Only allow POST
-  if (req.method !== 'POST') {
-    return res.status(405).json({ error: 'Method not allowed' });
-  }
+  res.setHeader('Access-Control-Allow-Origin', '*');
+  res.setHeader('Access-Control-Allow-Methods', 'POST, OPTIONS');
+  res.setHeader('Access-Control-Allow-Headers', 'Content-Type');
+
+  if (req.method === 'OPTIONS') return res.status(200).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
 
   const apiKey = process.env.RESEND_API_KEY;
-  if (!apiKey) {
-    console.error('RESEND_API_KEY environment variable is not set.');
-    return res.status(500).json({ error: 'Server misconfiguration' });
+  if (!apiKey) return res.status(500).json({ error: 'Server misconfiguration' });
+
+  // Parse body — Vercel may pass it as a string
+  let body = req.body;
+  if (typeof body === 'string') {
+    try { body = JSON.parse(body); } catch { return res.status(400).json({ error: 'Invalid JSON' }); }
   }
 
-  const { subject, html, replyTo } = req.body ?? {};
+  const { subject, html, replyTo } = body ?? {};
+  if (!subject || !html) return res.status(400).json({ error: 'Missing subject or html' });
 
-  if (!subject || !html) {
-    return res.status(400).json({ error: 'Missing required fields: subject, html' });
-  }
-
-  const body = {
+  const payload = {
     from: 'Aital Website <onboarding@resend.dev>',
     to: ['aitaltechvolution@gmail.com'],
     subject,
     html,
   };
-  if (replyTo) body.reply_to = replyTo;
+  if (replyTo) payload.reply_to = replyTo;
 
   try {
     const response = await fetch('https://api.resend.com/emails', {
@@ -41,19 +35,19 @@ export default async function handler(req, res) {
         'Content-Type': 'application/json',
         Authorization: `Bearer ${apiKey}`,
       },
-      body: JSON.stringify(body),
+      body: JSON.stringify(payload),
     });
 
     if (!response.ok) {
       const errorText = await response.text().catch(() => 'Unknown error');
-      console.error(`Resend API error ${response.status}:`, errorText);
+      console.error(`Resend error ${response.status}:`, errorText);
       return res.status(502).json({ error: `Resend error: ${response.status}` });
     }
 
     const data = await response.json();
     return res.status(200).json({ success: true, id: data.id });
   } catch (err) {
-    console.error('Failed to reach Resend API:', err);
+    console.error('Fetch to Resend failed:', err);
     return res.status(500).json({ error: 'Failed to send email' });
   }
 }
