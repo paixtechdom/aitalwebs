@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { sendEmail } from '../utils/sendEmail';
+import { sendContactEmail, sendSubscribeEmail } from '../utils/sendEmail';
 import { useScrollReveal } from '../hooks/useScrollReveal';
 import styles from './ContactForm.module.css';
 
@@ -7,42 +7,20 @@ export default function ContactForm() {
   const left  = useScrollReveal();
   const right = useScrollReveal();
 
-  // Contact form state
   const [form, setForm]         = useState({ name: '', email: '', message: '' });
-  const [formStatus, setStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+  const [formStatus, setStatus] = useState(null);
 
-  // Subscribe state
   const [subEmail, setSubEmail]   = useState('');
-  const [subStatus, setSubStatus] = useState(null); // null | 'loading' | 'success' | 'error'
+  const [subStatus, setSubStatus] = useState(null);
   const [subMsg, setSubMsg]       = useState('');
 
-  /* ── Contact form handler ── */
   async function handleSubmit() {
     const { name, email, message } = form;
-    if (!name || !email || !message) {
-      setStatus('error:fields');
-      return;
-    }
-    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      setStatus('error:email');
-      return;
-    }
+    if (!name || !email || !message) { setStatus('error:fields'); return; }
+    if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) { setStatus('error:email'); return; }
     setStatus('loading');
     try {
-      await sendEmail({
-        subject: `New enquiry from ${name}`,
-        replyTo: email,
-        html: `
-          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-            <h2 style="color:#4ECDC4;">New Website Enquiry</h2>
-            <p><strong>Name:</strong> ${name}</p>
-            <p><strong>Email:</strong> <a href="mailto:${email}">${email}</a></p>
-            <hr style="border:none;border-top:1px solid #eee;margin:16px 0;">
-            <p><strong>Message:</strong></p>
-            <p style="white-space:pre-wrap;">${message.replace(/</g, '&lt;')}</p>
-          </div>
-        `,
-      });
+      await sendContactEmail({ name, email, message });
       setStatus('success');
       setForm({ name: '', email: '', message: '' });
       setTimeout(() => setStatus(null), 6000);
@@ -52,7 +30,6 @@ export default function ContactForm() {
     }
   }
 
-  /* ── Subscribe handler ── */
   async function handleSubscribe() {
     if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(subEmail)) {
       setSubStatus('error');
@@ -62,16 +39,7 @@ export default function ContactForm() {
     setSubStatus('loading');
     setSubMsg('');
     try {
-      await sendEmail({
-        subject: `New newsletter subscriber: ${subEmail}`,
-        html: `
-          <div style="font-family:sans-serif;max-width:600px;margin:0 auto;">
-            <h2 style="color:#4ECDC4;">New Newsletter Subscriber</h2>
-            <p><strong>Email:</strong> ${subEmail}</p>
-            <p style="color:#888;font-size:0.85rem;">Subscribed at ${new Date().toLocaleString()}.</p>
-          </div>
-        `,
-      });
+      await sendSubscribeEmail(subEmail);
       setSubStatus('success');
       setSubMsg("✓ You're subscribed! Great to have you.");
       setSubEmail('');
@@ -95,7 +63,6 @@ export default function ContactForm() {
     <section className={styles.section} id="contact-form" aria-label="Contact Form">
       <div className={styles.inner}>
 
-        {/* ── LEFT ── */}
         <div
           ref={left.ref}
           className={`${styles.left} ${left.visible ? styles.visible : ''}`}
@@ -124,7 +91,6 @@ export default function ContactForm() {
             </li>
           </ul>
 
-          {/* Subscribe strip */}
           <div className={styles.subscribeStrip}>
             <h4><i className="fas fa-bell" /> Stay in the loop</h4>
             <p>Get tips on growing your business online — no spam, just value. Unsubscribe anytime.</p>
@@ -158,7 +124,6 @@ export default function ContactForm() {
           </div>
         </div>
 
-        {/* ── RIGHT (form card) ── */}
         <div
           ref={right.ref}
           className={`${styles.formCard} ${right.visible ? styles.visible : ''}`}

@@ -1,12 +1,14 @@
 import emailjs from '@emailjs/browser';
 
-const SERVICE_ID  = 'service_355olyw';   // e.g. service_abc123
-const PUBLIC_KEY  = 'lMHE7TiFIDcuzB9za';   // e.g. xK2mN9pQrS
+const SERVICE_ID         = 'service_355olyw';
+const PUBLIC_KEY         = 'lMHE7TiFIDcuzB9za';
+const CONTACT_TEMPLATE   = 'template_jki9xfd';
+const SUBSCRIBE_TEMPLATE = 'template_gadz6lb';
 
 export async function sendContactEmail({ name, email, message }) {
   await emailjs.send(
     SERVICE_ID,
-    'contact_template',
+    CONTACT_TEMPLATE,
     { from_name: name, from_email: email, message },
     PUBLIC_KEY
   );
@@ -15,7 +17,7 @@ export async function sendContactEmail({ name, email, message }) {
 export async function sendSubscribeEmail(email) {
   await emailjs.send(
     SERVICE_ID,
-    'subscribe_template',
+    SUBSCRIBE_TEMPLATE,
     { subscriber_email: email },
     PUBLIC_KEY
   );
