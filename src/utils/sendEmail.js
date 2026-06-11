@@ -1,22 +1,22 @@
-/**
- * Sends an email by calling our own Vercel serverless function (/api/send-email).
- * The serverless function holds the Resend API key securely on the server —
- * it is never exposed to the browser.
- *
- * @param {{ subject: string, html: string, replyTo?: string }} opts
- * @returns {Promise<boolean>} true on success
- */
-export async function sendEmail({ subject, html, replyTo }) {
-  const res = await fetch('/api/send-email', {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ subject, html, replyTo }),
-  });
+import emailjs from '@emailjs/browser';
 
-  if (!res.ok) {
-    const err = await res.text().catch(() => 'Unknown error');
-    throw new Error(`Email API error ${res.status}: ${err}`);
-  }
+const SERVICE_ID  = 'service_355olyw';   // e.g. service_abc123
+const PUBLIC_KEY  = 'lMHE7TiFIDcuzB9za';   // e.g. xK2mN9pQrS
 
-  return true;
+export async function sendContactEmail({ name, email, message }) {
+  await emailjs.send(
+    SERVICE_ID,
+    'contact_template',
+    { from_name: name, from_email: email, message },
+    PUBLIC_KEY
+  );
+}
+
+export async function sendSubscribeEmail(email) {
+  await emailjs.send(
+    SERVICE_ID,
+    'subscribe_template',
+    { subscriber_email: email },
+    PUBLIC_KEY
+  );
 }
